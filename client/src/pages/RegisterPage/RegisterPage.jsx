@@ -1,6 +1,6 @@
 import React from 'react'
 
-function RegisterPage() {
+const RegisterPage = () => {
   return (
     <div>
       Regigster

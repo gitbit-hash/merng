@@ -1,11 +1,11 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 
-import HomePage from './pages/HomePage'
-import LoginPage from './pages/LoginPage'
-import RegisterPage from './pages/RegisterPage'
+import HomePage from './pages/HomePage/HomePage'
+import LoginPage from './pages/LoginPage/LoginPage'
+import RegisterPage from './pages/RegisterPage/RegisterPage'
 
-import MenuBar from './components/MenuBar'
+import MenuBar from './components/MenuBar/MenuBar'
 
 import { Container } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css'
