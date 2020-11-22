@@ -37,7 +37,6 @@ const PostCard = ({ post: {
         <Button as='div' labelPosition='right' onClick={likePost}>
           <Button color='teal' basic>
             <Icon name='heart' />
-            Like
           </Button>
           <Label basic color='teal' pointing='left'>
             {likeCount}
@@ -46,7 +45,6 @@ const PostCard = ({ post: {
         <Button as='div' labelPosition='right' onClick={commentOnPost}>
           <Button color='blue' basic>
             <Icon name='comments' />
-            Like
           </Button>
           <Label basic color='blue' pointing='left'>
             {commentCount}

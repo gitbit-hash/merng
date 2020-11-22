@@ -7,7 +7,7 @@ import PostCard from '../../components/PostCard/PostCard'
 
 import { Grid } from 'semantic-ui-react'
 
-import './homePage.styles.css';
+import './HomePage.styles.css';
 
 const HomePage = () => {
   const { loading, error, data } = useQuery(FETCH_POSTS_QUERY)
