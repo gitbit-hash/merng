@@ -21,7 +21,7 @@ const LoginPage = (props) => {
 
   const [errors, setErrors] = useState({})
 
-  const { onChange, onSubmit, credentials } = useForm(loginUser, initialState)
+  const { onChange, onSubmit, values } = useForm(loginUser, initialState)
 
   const [login, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
@@ -31,7 +31,7 @@ const LoginPage = (props) => {
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.errors)
     },
-    variables: credentials
+    variables: values
   })
 
   function loginUser() {
@@ -47,7 +47,7 @@ const LoginPage = (props) => {
           placeholder='Username...'
           name='username'
           type='text'
-          value={credentials.username}
+          value={values.username}
           onChange={onChange}
           error={errors.username || errors.general ? true : false}
         />
@@ -56,7 +56,7 @@ const LoginPage = (props) => {
           placeholder='Password...'
           name='password'
           type='password'
-          value={credentials.password}
+          value={values.password}
           onChange={onChange}
           error={errors.password || errors.general ? true : false}
         />

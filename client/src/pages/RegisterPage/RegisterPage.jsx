@@ -22,7 +22,7 @@ const RegisterPage = (props) => {
 
   const [errors, setErrors] = useState({})
 
-  const { onChange, onSubmit, credentials } = useForm(registerUser, initialState)
+  const { onChange, onSubmit, values } = useForm(registerUser, initialState)
 
   const [register, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
@@ -32,7 +32,7 @@ const RegisterPage = (props) => {
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.errors)
     },
-    variables: credentials
+    variables: values
   })
 
   function registerUser() {
@@ -42,13 +42,13 @@ const RegisterPage = (props) => {
   return (
     <div className='form-container'>
       <Form onSubmit={onSubmit} noValidate className={loading ? 'loading' : ''}>
-        <h1>Login</h1>
+        <h1>Register A User</h1>
         <Form.Input
           label='Username'
           placeholder='Username...'
           name='username'
           type='text'
-          value={credentials.username}
+          value={values.username}
           onChange={onChange}
           error={errors.username ? true : false}
         />
@@ -57,7 +57,7 @@ const RegisterPage = (props) => {
           placeholder='Email...'
           name='email'
           type='email'
-          value={credentials.email}
+          value={values.email}
           onChange={onChange}
           error={errors.email ? true : false}
         />
@@ -66,7 +66,7 @@ const RegisterPage = (props) => {
           placeholder='Password...'
           name='password'
           type='password'
-          value={credentials.password}
+          value={values.password}
           onChange={onChange}
           error={errors.password ? true : false}
         />
@@ -75,11 +75,11 @@ const RegisterPage = (props) => {
           placeholder='Confirm Password...'
           name='confirmPassword'
           type='password'
-          value={credentials.confirmPassword}
+          value={values.confirmPassword}
           onChange={onChange}
           error={errors.confirmPassword ? true : false}
         />
-        <Button type='submit' primary>Login</Button>
+        <Button type='submit' primary>Register</Button>
       </Form>
       {
         Object.keys(errors).length > 0 && (

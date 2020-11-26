@@ -1,10 +1,10 @@
 import { useState } from 'react';
 
 export const useForm = (callback, initialState = {}) => {
-  const [credentials, setCredentials] = useState(initialState)
+  const [values, setValues] = useState(initialState)
 
   const onChange = (e) => {
-    setCredentials({ ...credentials, [e.target.name]: e.target.value })
+    setValues({ ...values, [e.target.name]: e.target.value })
   }
 
   const onSubmit = (e) => {
@@ -14,6 +14,6 @@ export const useForm = (callback, initialState = {}) => {
   return {
     onChange,
     onSubmit,
-    credentials
+    values
   }
 }
