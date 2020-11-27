@@ -111,7 +111,7 @@ module.exports = {
       const { username } = checkAuth(context);
 
       const post = await Post.findById(postId);
-      if (post) {
+      if (username && post) {
         if (post.likes.find(like => like.username === username)) {
           // Post alreay liked / unlike it
           post.likes = post.likes.filter(like => like.username !== username);
