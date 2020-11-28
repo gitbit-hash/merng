@@ -22,15 +22,14 @@ const PostForm = () => {
         query: FETCH_POSTS_QUERY,
       });
 
-      let newData = [...data.getPosts];
-      newData = [result.data.createPost, ...newData];
+      let newData = [...data.getPosts]
+      newData = [result.data.createPost, ...newData]
+
       proxy.writeQuery({
         query: FETCH_POSTS_QUERY,
         data: {
           ...data,
-          getPosts: {
-            newData,
-          },
+          getPosts: newData
         },
       });
       values.body = '';
