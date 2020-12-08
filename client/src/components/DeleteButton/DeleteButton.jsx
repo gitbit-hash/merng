@@ -1,30 +1,35 @@
 import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
-import { DELETE_POST_MUTATION, FETCH_POSTS_QUERY } from '../../utils/graphql'
+import { FETCH_POSTS_QUERY } from '../../graphql/queries'
+import { DELETE_POST_MUTATION, DELETE_COMMENT_MUTATION } from '../../graphql/mutations'
 
 import { Button, Confirm, Icon } from 'semantic-ui-react'
 
-const DeleteButton = ({ postId, handleClick }) => {
+const DeleteButton = ({ postId, commentId, handleClick }) => {
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
+  const deleteMutation = commentId ? DELETE_COMMENT_MUTATION : DELETE_POST_MUTATION
 
-  const [deletePost] = useMutation(DELETE_POST_MUTATION, {
+  const [deletePostOrComment] = useMutation(deleteMutation, {
     variables: {
-      postId
+      postId,
+      commentId
     },
     update(proxy) {
       setIsConfirmOpen(false)
 
-      const data = proxy.readQuery({
-        query: FETCH_POSTS_QUERY
-      })
-      const newData = data.getPosts.filter(post => post.id !== postId)
-      proxy.writeQuery({
-        query: FETCH_POSTS_QUERY,
-        data: {
-          ...data,
-          getPosts: newData
-        }
-      })
+      if (!commentId) {
+        const data = proxy.readQuery({
+          query: FETCH_POSTS_QUERY
+        })
+        const newData = data.getPosts.filter(post => post.id !== postId)
+
+        proxy.writeQuery({
+          query: FETCH_POSTS_QUERY,
+          data: {
+            getPosts: newData
+          }
+        })
+      }
       if (handleClick) handleClick()
     }
   })
@@ -42,7 +47,7 @@ const DeleteButton = ({ postId, handleClick }) => {
       <Confirm
         open={isConfirmOpen}
         onCancel={() => setIsConfirmOpen(false)}
-        onConfirm={deletePost}
+        onConfirm={deletePostOrComment}
       />
     </>
   )

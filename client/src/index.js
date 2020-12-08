@@ -2,6 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 import { setContext } from 'apollo-link-context'
+
+import typePolicies from './graphql/type-policies'
 import {
   ApolloClient,
   InMemoryCache,
@@ -24,9 +26,11 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:5000'
 })
 
+const cache = new InMemoryCache(typePolicies)
+
 const client = new ApolloClient({
   link: authLink.concat(httpLink),
-  cache: new InMemoryCache()
+  cache
 });
 
 ReactDOM.render(

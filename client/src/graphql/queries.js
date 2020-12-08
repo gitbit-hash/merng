@@ -43,9 +43,3 @@ query ($postId: ID!) {
   }
 }
 `
-
-export const DELETE_POST_MUTATION = gql`
-mutation DeletePost($postId: ID!) {
-  deletePost(postId: $postId)
-}
-`

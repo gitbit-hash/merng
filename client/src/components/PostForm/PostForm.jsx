@@ -1,7 +1,8 @@
 import React from 'react'
 
-import { gql, useMutation } from '@apollo/client'
-import { FETCH_POSTS_QUERY } from '../../utils/graphql.js'
+import { useMutation } from '@apollo/client'
+import { FETCH_POSTS_QUERY } from '../../graphql/queries'
+import { CREATE_POST_MUTATION } from '../../graphql/mutations'
 
 import { useForm } from '../../utils/hooks'
 
@@ -28,7 +29,6 @@ const PostForm = () => {
       proxy.writeQuery({
         query: FETCH_POSTS_QUERY,
         data: {
-          ...data,
           getPosts: newData
         },
       });
@@ -70,21 +70,5 @@ const PostForm = () => {
     </>
   );
 }
-
-const CREATE_POST_MUTATION = gql`
-  mutation CreatePost($body: String!) {
-    createPost(body: $body){
-      id username body createdAt
-      comments {
-        id username body createdAt
-      }
-      likes{
-        id username createdAt
-      }
-      commentCount
-      likeCount
-    }
-  }
-`
 
 export default PostForm

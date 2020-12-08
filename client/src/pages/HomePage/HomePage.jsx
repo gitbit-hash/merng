@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 
 import { useQuery } from '@apollo/client'
-import { FETCH_POSTS_QUERY } from '../../utils/graphql'
+import { FETCH_POSTS_QUERY } from '../../graphql/queries'
 
 import { AuthContext } from '../../context/auth'
 
 import PostCard from '../../components/PostCard/PostCard'
 import PostForm from '../../components/PostForm/PostForm'
 
-import { Grid, Transition } from 'semantic-ui-react'
+import { Grid, Transition, Loader } from 'semantic-ui-react'
 
 import './HomePage.styles.css';
 
@@ -16,6 +16,7 @@ const HomePage = () => {
   const { user } = useContext(AuthContext)
 
   const { loading, error, data } = useQuery(FETCH_POSTS_QUERY)
+
   if (error) return `Error! ${error.message}`
 
   return (
@@ -32,7 +33,7 @@ const HomePage = () => {
         }
         {
           loading ? (
-            <h1>Loading...</h1>
+            <Loader active />
           ) : (
               <Transition.Group>
                 {
@@ -45,7 +46,6 @@ const HomePage = () => {
               </Transition.Group>
             )
         }
-
       </Grid.Row>
     </Grid>
   )

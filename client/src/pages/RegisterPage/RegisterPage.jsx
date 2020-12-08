@@ -2,7 +2,8 @@ import React, { useState, useContext } from 'react'
 
 import { AuthContext } from '../../context/auth'
 
-import { useMutation, gql } from '@apollo/client'
+import { useMutation } from '@apollo/client'
+import { REGISTER_USER } from '../../graphql/mutations'
 
 import { useForm } from "../../utils/hooks";
 
@@ -97,25 +98,5 @@ const RegisterPage = (props) => {
     </div>
   )
 }
-
-const REGISTER_USER = gql`
-  mutation Register(
-    $username: String!
-    $email: String!
-    $password: String!
-    $confirmPassword: String!
-  ) {
-    register(
-      registerInput:{
-        username: $username
-        email: $email
-        password: $password
-        confirmPassword: $confirmPassword
-      }
-    ) {
-      id username email createdAt token
-    }
-  }
-`
 
 export default RegisterPage;

@@ -1,13 +1,12 @@
 import React, { useContext } from 'react'
 import { useQuery } from '@apollo/client'
-import { FETCH_POST_QUERY } from '../../utils/graphql'
+import { FETCH_POST_QUERY } from '../../graphql/queries'
 import { AuthContext } from '../../context/auth'
-import moment from 'moment'
 
-import LikeButton from '../../components/LikeButton/LikeButton'
-import DeleteButton from '../../components/DeleteButton/DeleteButton'
+import CommentList from '../../components/CommentList/CommentList'
+import Post from '../../components/Post/Post'
 
-import { Grid, Image, Card, Button, Icon, Label } from 'semantic-ui-react'
+import { Grid, Image, Loader } from 'semantic-ui-react'
 
 const SinglePostPage = (props) => {
   const { user } = useContext(AuthContext)
@@ -20,14 +19,22 @@ const SinglePostPage = (props) => {
     }
   })
 
+  if (loading) return (
+    <Loader active />
+  )
+
   if (error) return `Error! ${error.message}`
-  if (loading) return <div>Loading..</div>
 
-  const { id, username, body, createdAt, likeCount, likes, commentCount, comments } = data.getPost
-
-  const handleClick = () => {
-    props.history.push('/')
-  }
+  const {
+    id,
+    username,
+    body,
+    createdAt,
+    likeCount,
+    likes,
+    commentCount,
+    comments
+  } = data.getPost
 
   return (
     <Grid>
@@ -40,34 +47,22 @@ const SinglePostPage = (props) => {
           />
         </Grid.Column>
         <Grid.Column width={10}>
-          <Card fluid>
-            <Card.Content>
-              <Card.Header>{username}</Card.Header>
-              <Card.Meta>{moment(createdAt).fromNow()}</Card.Meta>
-              <Card.Description>{body}</Card.Description>
-            </Card.Content>
-            <hr />
-            <Card.Content extra>
-              <LikeButton user={user} post={{ id, likes, likeCount }} />
-              <Button
-                as='div'
-                labelPosition='right'
-                onClick={() => console.log('like')}
-              >
-                <Button basic color='blue'>
-                  <Icon name='comments' />
-                </Button>
-                <Label basic color='blue' pointing='left'>
-                  {commentCount}
-                </Label>
-              </Button>
+          <Post
+            user={user}
+            history={props.history}
+            post={
               {
-                user && user.username === username && (
-                  <DeleteButton postId={id} handleClick={handleClick} />
-                )
+                id,
+                username,
+                body,
+                createdAt,
+                likeCount,
+                likes,
+                commentCount
               }
-            </Card.Content>
-          </Card>
+            }
+          />
+          <CommentList postId={postId} user={user} comments={comments} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
