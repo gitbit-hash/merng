@@ -2,10 +2,11 @@ import React from 'react'
 
 import moment from 'moment'
 
-import LikeButton from '../LikeButton/LikeButton'
+import CommentButton from '../CommentButton/CommentButton'
 import DeleteButton from '../DeleteButton/DeleteButton'
+import LikeButton from '../LikeButton/LikeButton'
 
-import { Button, Card, Icon, Label } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
 
 const Post = ({
   user,
@@ -34,17 +35,7 @@ const Post = ({
       <hr />
       <Card.Content extra>
         <LikeButton user={user} post={{ id, likes, likeCount }} />
-        <Button
-          as='div'
-          labelPosition='right'
-        >
-          <Button basic color='blue'>
-            <Icon name='comments' />
-          </Button>
-          <Label basic color='blue' pointing='left'>
-            {commentCount}
-          </Label>
-        </Button>
+        <CommentButton commentCount={commentCount} />
         {
           user && user.username === username && (
             <DeleteButton postId={id} handleClick={handleClick} />
