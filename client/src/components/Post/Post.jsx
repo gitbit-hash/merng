@@ -25,7 +25,6 @@ const Post = ({
   }
 
   return (
-
     <Card fluid>
       <Card.Content>
         <Card.Header>{username}</Card.Header>

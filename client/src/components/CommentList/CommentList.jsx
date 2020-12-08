@@ -8,7 +8,7 @@ import { useForm } from "../../utils/hooks";
 import CommentForm from '../CommentForm/CommentForm'
 import CommentComponent from '../CommentComponent/CommentComponent'
 
-import { Card, Transition } from 'semantic-ui-react'
+import { List, Transition } from 'semantic-ui-react'
 
 
 const CommentList = ({ postId, user, comments }) => {
@@ -46,14 +46,15 @@ const CommentList = ({ postId, user, comments }) => {
         />
       )
     }
-    <Transition.Group>
+    <Transition.Group
+      duration={1000}
+      as={List}
+    >
       {
         comments.map(comment => (
-          <Card key={comment.id} fluid>
-            <Card.Content>
-              <CommentComponent postId={postId} {...comment} />
-            </Card.Content>
-          </Card>
+          <List.Item key={comment.id} >
+            <CommentComponent postId={postId} {...comment} />
+          </List.Item>
         ))
       }
     </Transition.Group>
