@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 import { FETCH_POSTS_QUERY } from '../../graphql/queries'
@@ -6,13 +6,15 @@ import { CREATE_POST_MUTATION } from '../../graphql/mutations'
 
 import { useForm } from '../../utils/hooks'
 
-import { Form, Button } from 'semantic-ui-react'
+import { Form, Button, Segment } from 'semantic-ui-react'
 
 const PostForm = () => {
 
   const initialState = {
     body: ''
   }
+
+  const [errors, setErrors] = useState('')
 
   const { onSubmit, onChange, values } = useForm(createPostCallback, initialState)
 
@@ -34,8 +36,8 @@ const PostForm = () => {
       });
       values.body = '';
     },
-    onError(err) {
-      console.log(err)
+    onError(error) {
+      setErrors(error.message)
     }
   })
 
@@ -44,7 +46,7 @@ const PostForm = () => {
   }
 
   return (
-    <>
+    <Segment size='mini' style={{ marginBottom: 20 }}>
       <Form onSubmit={onSubmit}>
         <h1>Create a Post</h1>
         <Form.Field>
@@ -53,21 +55,25 @@ const PostForm = () => {
             name='body'
             onChange={onChange}
             value={values.body}
-            error={error ? true : false}
+            error={errors ? true : false}
           />
-          <Button type='submit' color='teal'>Submit</Button>
+          <Button
+            type='submit'
+            color='teal'
+            disabled={values.body.trim() === ''}
+          >
+            Submit
+          </Button>
         </Form.Field>
       </Form>
       {
         error && (
-          <div className='ui error message' style={{ marginBottom: 20 }}>
-            <ul>
-              <li>{error.graphQLErrors[0].message}</li>
-            </ul>
+          <div className='ui error message'>
+            {errors}
           </div>
         )
       }
-    </>
+    </Segment>
   );
 }
 

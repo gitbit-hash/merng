@@ -46,10 +46,7 @@ const CommentList = ({ postId, user, comments }) => {
         />
       )
     }
-    <Transition.Group
-      duration={1000}
-      as={List}
-    >
+    <Transition.Group as={List}>
       {
         comments.map(comment => (
           <List.Item key={comment.id} >

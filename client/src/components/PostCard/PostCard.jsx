@@ -9,7 +9,7 @@ import LikeButton from '../LikeButton/LikeButton'
 
 import { Card, Image } from 'semantic-ui-react'
 
-const PostCard = ({ post: {
+const PostCard = ({
   id,
   username,
   body,
@@ -17,7 +17,7 @@ const PostCard = ({ post: {
   likeCount,
   commentCount,
   createdAt
-} }) => {
+}) => {
   const { user } = useContext(AuthContext)
 
   return (
