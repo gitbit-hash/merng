@@ -5,6 +5,7 @@ type Post {
     id: ID!
     body: String!
     username: String!
+    ownerAvatar: String
     createdAt: String!
     comments: [Comment]!
     likes: [Like]!
@@ -28,6 +29,7 @@ type User {
   email: String!
   username: String!
   createdAt: String!
+  avatar: String
 }
 input RegisterInput {
   username: String!
@@ -38,7 +40,7 @@ input RegisterInput {
 }
 type Query{
   getPosts: [Post]
-  getPost(postId: ID!): Post 
+  getPost(postId: ID!): Post
 }
 type Mutation{
   register(registerInput: RegisterInput): User!

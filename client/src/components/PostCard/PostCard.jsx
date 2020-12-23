@@ -12,6 +12,7 @@ import { Card, Image } from 'semantic-ui-react'
 const PostCard = ({
   id,
   username,
+  ownerAvatar,
   body,
   likes,
   likeCount,
@@ -19,11 +20,11 @@ const PostCard = ({
   createdAt
 }) => {
   const { user } = useContext(AuthContext)
-
+  console.log(ownerAvatar)
   return (
     <Card fluid>
       <Card.Content>
-        <Image floated='right' size='mini' src='https://react.semantic-ui.com/images/avatar/large/steve.jpg' />
+        <Image floated='right' size='mini' src={ownerAvatar} />
         <Card.Header>{username}</Card.Header>
         <Card.Meta
           as={Link}

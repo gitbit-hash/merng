@@ -5,6 +5,7 @@ export const FETCH_POSTS_QUERY = gql`
   getPosts{
     id
     username
+    ownerAvatar
     body
     createdAt
     likeCount

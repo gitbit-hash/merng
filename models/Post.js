@@ -4,6 +4,7 @@ const postSchema = new Schema({
   body: String,
   username: String,
   createdAt: String,
+  ownerAvatar: String,
 
   comments: [
     {
@@ -22,7 +23,7 @@ const postSchema = new Schema({
 
   user: {
     type: Schema.Types.ObjectId,
-    ref: 'users'
+    ref: 'User'
   }
 });
 

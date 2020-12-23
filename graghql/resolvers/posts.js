@@ -38,6 +38,7 @@ module.exports = {
       const newPost = new Post({
         user: user.id,
         username: user.username,
+        ownerAvatar: user.avatar,
         body,
         createdAt: new Date().toISOString()
       });

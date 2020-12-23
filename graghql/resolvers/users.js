@@ -5,12 +5,14 @@ const { UserInputError } = require('apollo-server');
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../config');
 const { validateRegisterInput, validateLoginInput } = require('../../utils/validators.js');
+const selectRandomPic = require('../../utils/random-pics/selectRanodmPic');
 
 const generateToken = user => jwt.sign(
   {
     id: user.id,
     username: user.username,
-    email: user.email
+    email: user.email,
+    avatar: user.avatar
   },
   SECRET_KEY,
   { expiresIn: '1h' }
@@ -52,7 +54,8 @@ module.exports = {
         username,
         email,
         password,
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        avatar: selectRandomPic()
       });
 
       // save user to the database
