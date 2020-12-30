@@ -4,7 +4,11 @@ const { UserInputError } = require('apollo-server');
 
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../config');
+
 const { validateRegisterInput, validateLoginInput } = require('../../utils/validators.js');
+const checkAuth = require('../../utils/check-auth')
+
+const processUpload = require('../../utils/proccess-upload');
 const selectRandomPic = require('../../utils/random-pics/selectRanodmPic');
 
 const generateToken = user => jwt.sign(
@@ -95,6 +99,20 @@ module.exports = {
         id: user._id,
         token
       }
+    },
+
+    async uploadImage(parent, { file }, context) {
+      const user = checkAuth(context);
+
+      // TODO: 1. Validate file metadata.
+
+      // 2. Stream file contents into cloud storage:
+      const url = await processUpload(file);
+
+      // TODO: 3. Record the file upload in your DB.
+      // const id = await recordFile( … )
+
+      return url;
     }
   }
 }

@@ -1,6 +1,8 @@
 const gql = require('graphql-tag');
 
 module.exports = gql`
+scalar Upload
+
 type Post {
     id: ID!
     body: String!
@@ -38,9 +40,13 @@ input RegisterInput {
   confirmPassword: String!
 
 }
+type File {
+    url: String!
+}
 type Query{
   getPosts: [Post]
   getPost(postId: ID!): Post
+  uploads: [File]
 }
 type Mutation{
   register(registerInput: RegisterInput): User!
@@ -50,5 +56,6 @@ type Mutation{
   createComment(postId: String!, body: String!): Post!
   deleteComment(postId: ID!, commentId: ID!): Post!
   likePost(postId: ID!): Post!
+  uploadImage(file: Upload!): String!
 }
 `
