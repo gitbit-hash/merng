@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { UserInputError } = require('apollo-server');
+const { UserInputError, ValidationError } = require('apollo-server');
 
 const User = require('../../models/User');
 const { SECRET_KEY } = require('../../config');
@@ -101,16 +101,29 @@ module.exports = {
       }
     },
 
-    async uploadImage(parent, { file }, context) {
-      const user = checkAuth(context);
+    async uploadImage(_, { file }, context) {
+      // check user auth
+      const { username } = checkAuth(context);
 
-      // TODO: 1. Validate file metadata.
+      //  1. Validate file metadata.
+      const { filename } = await file;
+
+      if (!/\.(jpg|jpeg|png)$/.test(filename)) {
+        throw new ValidationError('Please select a valid image file');
+      }
 
       // 2. Stream file contents into cloud storage:
       const url = await processUpload(file);
 
-      // TODO: 3. Record the file upload in your DB.
-      // const id = await recordFile( … )
+      // 3. Record the file upload in your DB.
+      try {
+        const user = await User.findOne({ username });
+        user.avatar = url;
+        await user.save();
+
+      } catch (err) {
+        throw new Error(err)
+      }
 
       return url;
     }
