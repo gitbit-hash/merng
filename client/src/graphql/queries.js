@@ -28,6 +28,7 @@ query ($postId: ID!) {
   getPost(postId: $postId) {
     id
     username
+    ownerAvatar
     body
     createdAt
     likeCount

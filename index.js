@@ -1,5 +1,6 @@
 const { ApolloServer } = require('apollo-server-express');
 const express = require('express');
+const cors = require('cors')
 const typeDefs = require('./graghql/typeDefs');
 const resolvers = require('./graghql/resolvers');
 const { graphqlUploadExpress } = require('graphql-upload');
@@ -9,7 +10,8 @@ const { MONGODB } = require('./config');
 
 const app = express();
 
-app.use(graphqlUploadExpress({ maxFileSize: 1000000, maxFiles: 1 }));
+app.use(cors());
+app.use(graphqlUploadExpress());
 
 const server = new ApolloServer({
   typeDefs,

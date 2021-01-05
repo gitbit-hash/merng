@@ -32,6 +32,15 @@ export const LOGIN_USER = gql`
   }
 `
 
+export const UPLOAD_IMAGE = gql`
+  mutation UploadImage($file: Upload!) {
+    uploadImage(file: $file) {
+      filename
+      url
+    }
+  }
+`
+
 export const CREATE_POST_MUTATION = gql`
 mutation CreatePost($body: String!) {
   createPost(body: $body){

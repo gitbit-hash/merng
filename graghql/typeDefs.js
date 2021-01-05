@@ -41,7 +41,8 @@ input RegisterInput {
 
 }
 type File {
-    url: String!
+  url: String!
+  filename: String!
 }
 type Query{
   getPosts: [Post]
@@ -56,6 +57,6 @@ type Mutation{
   createComment(postId: String!, body: String!): Post!
   deleteComment(postId: ID!, commentId: ID!): Post!
   likePost(postId: ID!): Post!
-  uploadImage(file: Upload!): String!
+  uploadImage(file: Upload!): File!
 }
 `

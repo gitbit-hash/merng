@@ -28,6 +28,7 @@ const SinglePostPage = (props) => {
   const {
     id,
     username,
+    ownerAvatar,
     body,
     createdAt,
     likeCount,
@@ -41,7 +42,7 @@ const SinglePostPage = (props) => {
       <Grid.Row>
         <Grid.Column width={2}>
           <Image
-            src='https://react.semantic-ui.com/images/avatar/large/steve.jpg'
+            src={ownerAvatar}
             size='small'
             floated='right'
           />

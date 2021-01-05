@@ -20,7 +20,7 @@ const CommentComponent = ({ postId, id, username, createdAt, body }) => {
         <Image
           floated='left'
           size='mini'
-          src='https://react.semantic-ui.com/images/avatar/small/christian.jpg'
+          src={user.avatar}
         />
         <Card.Header>{username}</Card.Header>
         <Card.Meta>

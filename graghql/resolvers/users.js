@@ -9,7 +9,6 @@ const { validateRegisterInput, validateLoginInput } = require('../../utils/valid
 const checkAuth = require('../../utils/check-auth')
 
 const processUpload = require('../../utils/proccess-upload');
-const selectRandomPic = require('../../utils/random-pics/selectRanodmPic');
 
 const generateToken = user => jwt.sign(
   {
@@ -54,12 +53,14 @@ module.exports = {
       // hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
+      const avatar = 'https://res.cloudinary.com/dumiovmdw/image/upload/v1609518869/149071_dvztpj.png'
+
       const newUser = new User({
         username,
         email,
         password,
         createdAt: new Date().toISOString(),
-        avatar: selectRandomPic()
+        avatar
       });
 
       // save user to the database
@@ -108,7 +109,7 @@ module.exports = {
       //  1. Validate file metadata.
       const { filename } = await file;
 
-      if (!/\.(jpg|jpeg|png)$/.test(filename)) {
+      if (!/\.(jpg|jpeg|png)$/i.test(filename)) {
         throw new ValidationError('Please select a valid image file');
       }
 
@@ -125,7 +126,7 @@ module.exports = {
         throw new Error(err)
       }
 
-      return url;
+      return { url, filename };
     }
   }
 }
