@@ -20,7 +20,7 @@ const PostCard = ({
   createdAt
 }) => {
   const { user } = useContext(AuthContext)
-  console.log(ownerAvatar)
+
   return (
     <Card fluid>
       <Card.Content>
