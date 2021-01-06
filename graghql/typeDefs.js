@@ -18,6 +18,7 @@ type Comment {
   id: ID!
   username: String!
   body: String!
+  ownerAvatar: String!
   createdAt: String!
 }
 type Like {

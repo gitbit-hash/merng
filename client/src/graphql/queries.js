@@ -38,7 +38,8 @@ query ($postId: ID!) {
     commentCount
     comments{
       id 
-      username 
+      username
+      ownerAvatar
       body 
       createdAt
     }

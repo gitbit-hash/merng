@@ -10,6 +10,7 @@ const postSchema = new Schema({
     {
       body: String,
       username: String,
+      ownerAvatar: String,
       createdAt: String
     }
   ],

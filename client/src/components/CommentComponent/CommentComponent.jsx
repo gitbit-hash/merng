@@ -6,7 +6,14 @@ import DeleteButton from '../DeleteButton/DeleteButton'
 
 import { Card, Image } from 'semantic-ui-react'
 
-const CommentComponent = ({ postId, id, username, createdAt, body }) => {
+const CommentComponent = ({
+  postId,
+  id,
+  username,
+  createdAt,
+  body,
+  ownerAvatar
+}) => {
   const { user } = useContext(AuthContext)
 
   return (
@@ -20,7 +27,7 @@ const CommentComponent = ({ postId, id, username, createdAt, body }) => {
         <Image
           floated='left'
           size='mini'
-          src={user.avatar}
+          src={ownerAvatar}
         />
         <Card.Header>{username}</Card.Header>
         <Card.Meta>

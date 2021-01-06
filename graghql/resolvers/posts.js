@@ -64,7 +64,7 @@ module.exports = {
       }
     },
     async createComment(_, { postId, body }, context) {
-      const { username } = checkAuth(context);
+      const { username, avatar } = checkAuth(context);
 
       if (body.trim() === '') {
         throw new UserInputError('Empty comment', {
@@ -79,6 +79,7 @@ module.exports = {
           post.comments.unshift({
             body,
             username,
+            ownerAvatar: avatar,
             createdAt: new Date().toISOString()
           })
           await post.save();
