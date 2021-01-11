@@ -53,14 +53,14 @@ module.exports = {
       // hash password and create an auth token
       password = await bcrypt.hash(password, 12);
 
-      const avatar = 'https://res.cloudinary.com/dumiovmdw/image/upload/v1609518869/149071_dvztpj.png'
+      const DEFAULT_AVATAR = 'https://res.cloudinary.com/dumiovmdw/image/upload/v1609518869/149071_dvztpj.png'
 
       const newUser = new User({
         username,
         email,
         password,
         createdAt: new Date().toISOString(),
-        avatar
+        avatar: DEFAULT_AVATAR
       });
 
       // save user to the database
@@ -104,7 +104,7 @@ module.exports = {
 
     async uploadImage(_, { file }, context) {
       // check user auth
-      const { username } = checkAuth(context);
+      const { id } = checkAuth(context);
 
       //  1. Validate file metadata.
       const { filename } = await file;
@@ -116,12 +116,9 @@ module.exports = {
       // 2. Stream file contents into cloud storage:
       const url = await processUpload(file);
 
-      // 3. Record the file upload in your DB.
+      // 3. Updtae the Image url in your DB.
       try {
-        const user = await User.findOne({ username });
-        user.avatar = url;
-        await user.save();
-
+        await User.findByIdAndUpdate(id, { avatar: url });
       } catch (err) {
         throw new Error(err)
       }

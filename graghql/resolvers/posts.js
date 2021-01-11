@@ -1,6 +1,7 @@
 const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const Post = require('../../models/Post');
+const User = require('../../models/User');
 const checkAuth = require('../../utils/check-auth');
 
 
@@ -8,7 +9,21 @@ module.exports = {
   Query: {
     async getPosts() {
       try {
-        const posts = Post.find().sort({ createdAt: -1 });
+        let posts = await Post
+          .find()
+          .populate({
+            path: 'user',
+            select: 'avatar'
+          })
+          .sort({ createdAt: -1 });
+
+        posts = posts.map(({ _doc }) =>
+          ({
+            ..._doc,
+            id: _doc._id,
+            ownerAvatar: _doc.user.avatar
+          }));
+
         return posts;
       } catch (err) {
         throw new Error(err);
@@ -16,7 +31,31 @@ module.exports = {
     },
     async getPost(_, { postId }) {
       try {
-        const post = await Post.findById(postId);
+        let post = await Post
+          .findById(postId)
+          .populate({
+            path: 'user',
+            select: 'avatar'
+          })
+          .populate({
+            path: 'comments',
+            populate: [{
+              path: 'user',
+              select: 'avatar'
+            }]
+          });
+
+        post = {
+          ...post._doc,
+          id: post._doc._id,
+          ownerAvatar: post._doc.user.avatar,
+          comments: post.comments.map(({ _doc }) => ({
+            ..._doc,
+            id: _doc._id,
+            ownerAvatar: _doc.user.avatar
+          }))
+        }
+
         if (post) {
           return post;
         } else {
@@ -29,7 +68,9 @@ module.exports = {
   },
   Mutation: {
     async createPost(_, { body }, context) {
-      const user = checkAuth(context);
+      const auth = checkAuth(context);
+
+      const user = await User.findById(auth.id);
 
       if (body.trim() === '') {
         throw new UserInputError('Post body must no be empty')
@@ -64,7 +105,9 @@ module.exports = {
       }
     },
     async createComment(_, { postId, body }, context) {
-      const { username, avatar } = checkAuth(context);
+      const auth = checkAuth(context);
+
+      const user = await User.findById(auth.id);
 
       if (body.trim() === '') {
         throw new UserInputError('Empty comment', {
@@ -75,14 +118,18 @@ module.exports = {
       }
       try {
         const post = await Post.findById(postId);
+
         if (post) {
           post.comments.unshift({
+            user: user.id,
             body,
-            username,
-            ownerAvatar: avatar,
+            username: user.username,
+            ownerAvatar: user.avatar,
             createdAt: new Date().toISOString()
           })
+
           await post.save();
+
           return post;
         } else {
           throw new UserInputError('Post not found');

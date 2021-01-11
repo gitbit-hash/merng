@@ -11,7 +11,11 @@ const postSchema = new Schema({
       body: String,
       username: String,
       ownerAvatar: String,
-      createdAt: String
+      createdAt: String,
+      user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+      }
     }
   ],
 
