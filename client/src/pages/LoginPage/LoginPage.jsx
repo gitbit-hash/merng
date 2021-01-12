@@ -11,7 +11,7 @@ import { Form, Button } from 'semantic-ui-react'
 
 import './LoginPage.styles.css'
 
-const LoginPage = (props) => {
+const LoginPage = () => {
 
   const context = useContext(AuthContext)
 
@@ -27,7 +27,6 @@ const LoginPage = (props) => {
   const [login, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       context.login(userData)
-      props.history.push('/')
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.errors)

@@ -11,7 +11,7 @@ import { Form, Button } from 'semantic-ui-react'
 
 import './RegisterPage.styles.css'
 
-const RegisterPage = (props) => {
+const RegisterPage = () => {
   const context = useContext(AuthContext)
 
   const initialState = {
@@ -28,7 +28,6 @@ const RegisterPage = (props) => {
   const [register, { loading }] = useMutation(REGISTER_USER, {
     update(_, { data: { register: userData } }) {
       context.login(userData)
-      props.history.push('/')
     },
     onError(err) {
       setErrors(err.graphQLErrors[0].extensions.errors)

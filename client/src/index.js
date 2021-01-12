@@ -4,6 +4,8 @@ import ReactDOM from 'react-dom';
 import { setContext } from 'apollo-link-context'
 import { createUploadLink } from 'apollo-upload-client'
 
+import { AuthProvider } from './context/auth'
+
 import typePolicies from './graphql/type-policies'
 import {
   ApolloClient,
@@ -35,7 +37,9 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <ApolloProvider client={client}>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
   </ApolloProvider>,
   document.getElementById('root')
 );
