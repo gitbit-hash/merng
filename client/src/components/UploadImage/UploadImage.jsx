@@ -17,7 +17,6 @@ const UploadImage = () => {
   const [uploadImage, { loading }] = useMutation(UPLOAD_IMAGE, {
     onCompleted({ uploadImage: { filename, url } }) {
       setUploadedImage({ filename, url })
-      setError('')
     },
     onError(err) {
       setError(err.message)
@@ -30,6 +29,13 @@ const UploadImage = () => {
     const file = e.target.files[0]
     if (!file) return
 
+    if (!/\.(jpg|jpeg|png)$/i.test(file.name)) {
+      setError('We only support JPG, JPEG, or PNG pictures.')
+      setSelectedFile(null)
+      return
+    }
+
+    setError('')
     setSelectedFile({ file })
   }
 
