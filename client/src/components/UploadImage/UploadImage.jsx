@@ -1,75 +1,103 @@
-import React, { Fragment, useRef, useState } from 'react'
+import React, { Fragment, useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 
 import { UPLOAD_IMAGE } from '../../graphql/mutations'
 
+import Avatar from 'react-avatar-edit'
+
 import { Loader } from 'semantic-ui-react'
 
 const UploadImage = () => {
-
-  const inputEl = useRef(null);
-
   const [error, setError] = useState('')
-  const [uploadedImage, setUploadedImage] = useState({})
+  const [imageURL, setImageURL] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
+  const [croppedImage, setCroppedImage] = useState(null)
+  const [preview, setPreview] = useState('')
 
   const [uploadImage, { loading }] = useMutation(UPLOAD_IMAGE, {
-    onCompleted({ uploadImage: { filename, url } }) {
-      setUploadedImage({ filename, url })
+    onCompleted({ uploadImage: { url } }) {
+      setImageURL(url)
+      setPreview('')
     },
     onError(err) {
       setError(err.message)
     }
   })
 
-  if (loading) return <Loader active />;
+  if (loading) return <Loader active />
 
-  const onChange = (e) => {
+  const handleClick = () => {
+    uploadImage({ variables: { ...croppedImage } })
+  }
+
+  const onBeforeFileLoad = e => {
+
     const file = e.target.files[0]
     if (!file) return
 
     if (!/\.(jpg|jpeg|png)$/i.test(file.name)) {
       setError('We only support JPG, JPEG, or PNG pictures.')
-      setSelectedFile(null)
+      e.target.value = ''
       return
     }
 
     setError('')
-    setSelectedFile({ file })
+    setSelectedFile(file)
   }
 
-  const handleClick = () => {
-    uploadImage({ variables: { ...selectedFile } })
+  const onCrop = async (preview) => {
+    setPreview(preview)
+
+    try {
+      const url = await fetch(preview)
+
+      const blob = await url.blob()
+
+      const { name, type } = selectedFile;
+
+      const file = new File([blob], name, { type })
+
+      setCroppedImage({ file })
+    } catch (error) {
+      setError(error.message)
+    }
   }
 
-  const { filename, url } = uploadedImage
+  const onClose = () => {
+    setPreview('')
+  }
 
   return (
     <Fragment>
       <h2>Upload Image</h2>
       {
-        url && (
+        imageURL && (
           <img
-            src={url}
-            alt={filename}
-            style={{ width: '150px', height: '150px' }} />
+            alt='avatar'
+            src={imageURL}
+            style={{ width: '150px', height: '150px' }}
+          />
         )
       }
-      <input
-        type="file"
-        hidden
-        ref={inputEl}
-        onChange={onChange}
+      <Avatar
+        onBeforeFileLoad={onBeforeFileLoad}
+        onClose={onClose}
+        onCrop={onCrop}
+        width={390}
+        height={295}
       />
-      <button
-        onClick={() => inputEl.current.click()}
-      >
-        Pick an Image
-      </button>
+      {
+        preview &&
+        <img
+          alt='avatar-preview'
+          src={preview}
+          style={{ width: '150px', height: '150px' }}
+        />
+      }
       <button
         onClick={handleClick}
-        disabled={!selectedFile ? true : false}
+        disabled={!preview ? true : false}
       >
         Upload Image
       </button>
