@@ -7,7 +7,7 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import SinglePostPage from './pages/SinglePostPage/SinglePostPage'
 import MenuBar from './components/MenuBar/MenuBar'
-import UploadImage from './components/UploadImage/UploadImage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
 import PrivateRoute from './routes/PrivteRoute'
 
 import { Container } from 'semantic-ui-react'
@@ -30,7 +30,7 @@ const App = () => {
             {user ? <Redirect to='/' /> : <RegisterPage />}
           </Route>
           <Route exact path='/posts/:postId' component={SinglePostPage} />
-          <PrivateRoute exact path='/upload' component={UploadImage} />
+          <PrivateRoute exact path='/profile' component={ProfilePage} />
         </Switch>
       </Container>
     </Router>
