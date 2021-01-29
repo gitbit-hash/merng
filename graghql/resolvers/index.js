@@ -1,5 +1,6 @@
 const postResolvers = require('./posts');
 const userResolvers = require('./users');
+const profileResolvers = require('./profiles');
 
 const { GraphQLUpload } = require('graphql-upload');
 
@@ -11,6 +12,7 @@ module.exports = {
   Upload: GraphQLUpload,
   Query: {
     ...postResolvers.Query,
+    ...profileResolvers.Query
   },
   Mutation: {
     ...userResolvers.Mutation,

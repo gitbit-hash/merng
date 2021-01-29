@@ -4,16 +4,17 @@ module.exports = gql`
 scalar Upload
 
 type Post {
-    id: ID!
-    body: String!
-    username: String!
-    ownerAvatar: String
-    createdAt: String!
-    comments: [Comment]!
-    likes: [Like]!
-    commentCount: Int!
-    likeCount: Int!
+  id: ID!
+  body: String!
+  username: String!
+  ownerAvatar: String
+  createdAt: String!
+  comments: [Comment]!
+  likes: [Like]!
+  commentCount: Int!
+  likeCount: Int!
 }
+
 type Comment {
   id: ID!
   username: String!
@@ -21,11 +22,13 @@ type Comment {
   ownerAvatar: String!
   createdAt: String!
 }
+
 type Like {
   id: ID!
   username: String!
   createdAt: String!
 }
+
 type User {
   id: ID!
   token: String!
@@ -34,22 +37,32 @@ type User {
   createdAt: String!
   avatar: String
 }
+
+type Profile {
+  id: ID!
+  username: String!
+  avatar: String!
+}
+
 input RegisterInput {
   username: String!
   email: String!
   password: String!
   confirmPassword: String!
-
 }
+
 type File {
   url: String!
   filename: String!
 }
+
 type Query{
   getPosts: [Post]
   getPost(postId: ID!): Post
   uploads: [File]
+  getProfiles:[Profile]
 }
+
 type Mutation{
   register(registerInput: RegisterInput): User!
   login(username: String!, password: String!): User!

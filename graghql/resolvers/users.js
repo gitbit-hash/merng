@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const { UserInputError, ValidationError } = require('apollo-server');
 
 const User = require('../../models/User');
+const Profile = require('../../models/Profile');
 const { SECRET_KEY } = require('../../config');
 
 const { validateRegisterInput, validateLoginInput } = require('../../utils/validators.js');
@@ -64,6 +65,15 @@ module.exports = {
 
       // save user to the database
       const res = await newUser.save();
+
+      // create user profile
+      const newProfile = new Profile({
+        user: res._id,
+        username: res.username
+      });
+
+      // save profile to the database
+      await newProfile.save();
 
       //generate token
       const token = generateToken(res);
