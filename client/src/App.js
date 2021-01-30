@@ -8,6 +8,7 @@ import RegisterPage from './pages/RegisterPage/RegisterPage'
 import SinglePostPage from './pages/SinglePostPage/SinglePostPage'
 import MenuBar from './components/MenuBar/MenuBar'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
+import ProfilesPage from './pages/ProfilesPage/ProfilesPage'
 import PrivateRoute from './routes/PrivteRoute'
 
 import { Container } from 'semantic-ui-react'
@@ -31,6 +32,7 @@ const App = () => {
           </Route>
           <Route exact path='/posts/:postId' component={SinglePostPage} />
           <PrivateRoute exact path='/profile' component={ProfilePage} />
+          <PrivateRoute exact path='/profiles' component={ProfilesPage} />
         </Switch>
       </Container>
     </Router>
