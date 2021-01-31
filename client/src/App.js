@@ -7,8 +7,8 @@ import LoginPage from './pages/LoginPage/LoginPage'
 import RegisterPage from './pages/RegisterPage/RegisterPage'
 import SinglePostPage from './pages/SinglePostPage/SinglePostPage'
 import MenuBar from './components/MenuBar/MenuBar'
-import ProfilePage from './pages/ProfilePage/ProfilePage'
-import ProfilesPage from './pages/ProfilesPage/ProfilesPage'
+import DashboardPage from './pages/DashboardPage/DashboardPage'
+import ProfileListPage from './pages/ProfileListPage/ProfileListPage'
 import PrivateRoute from './routes/PrivteRoute'
 
 import { Container } from 'semantic-ui-react'
@@ -31,8 +31,8 @@ const App = () => {
             {user ? <Redirect to='/' /> : <RegisterPage />}
           </Route>
           <Route exact path='/posts/:postId' component={SinglePostPage} />
-          <PrivateRoute exact path='/profile' component={ProfilePage} />
-          <PrivateRoute exact path='/profiles' component={ProfilesPage} />
+          <PrivateRoute exact path='/dashboard' component={DashboardPage} />
+          <PrivateRoute exact path='/profiles' component={ProfileListPage} />
         </Switch>
       </Container>
     </Router>
