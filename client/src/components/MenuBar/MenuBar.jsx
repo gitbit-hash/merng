@@ -1,4 +1,5 @@
-import React, { useState, useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import { AuthContext } from '../../context/auth'
 
@@ -6,12 +7,15 @@ import { Link } from 'react-router-dom'
 
 import { Menu } from 'semantic-ui-react'
 
-const MenuBar = () => {
-  const { user, logout } = useContext(AuthContext);
-  const pathName = window.location.pathname
-  const path = pathName === '/' ? 'home' : pathName.substring(1)
+const MenuBar = ({ location }) => {
+  const { user, logout } = useContext(AuthContext)
+  const [activeItem, setActiveItem] = useState('')
 
-  const [activeItem, setActiveItem] = useState(path)
+  const path = location.pathname === '/' ? 'home' : location.pathname.substring(1)
+
+  useEffect(() => {
+    setActiveItem(path)
+  }, [path])
 
   const handleItemClick = (e, { name }) => setActiveItem(name)
 
@@ -63,4 +67,4 @@ const MenuBar = () => {
 
 }
 
-export default MenuBar;
+export default withRouter(MenuBar);
