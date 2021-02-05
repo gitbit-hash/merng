@@ -27,7 +27,7 @@ const HomePage = () => {
       <Grid.Row>
         {
           user &&
-          <Grid.Column>
+          <Grid.Column width={16}>
             <PostForm />
           </Grid.Column>
         }
@@ -38,7 +38,7 @@ const HomePage = () => {
               <Transition.Group>
                 {
                   data && data.getPosts.map(post =>
-                    <Grid.Column key={post.id} style={{ marginBottom: 20 }}>
+                    <Grid.Column width={8} key={post.id} style={{ marginBottom: 20 }}>
                       <PostCard {...post} />
                     </Grid.Column>
                   )
