@@ -7,12 +7,15 @@ import { FETCH_PROFILE_QUERY } from '../../graphql/queries'
 
 import UploadImageModal from '../../components/UploadImageModal/UploadImageModal'
 
-import { Loader, Image, Grid, Button, Segment, Divider } from 'semantic-ui-react';
+import { Loader, Image, Grid, Button, Segment, Divider, Menu } from 'semantic-ui-react';
 
 
 const DashboardPage = () => {
 
   const [open, setOpen] = useState(false)
+  const [activeItem, setActiveItem] = useState('profile')
+
+  const handleItemClick = (e, { name }) => setActiveItem(name)
 
   const { user: { username } } = useContext(AuthContext)
 
@@ -48,7 +51,20 @@ const DashboardPage = () => {
       }
       <Grid.Row columns={3}>
         <Grid.Column mobile={16} tablet={6} computer={4}>
-          Account settings side bar
+          <h4>Account settings</h4>
+          <Menu
+            fluid
+            pointing
+            secondary
+            vertical
+            color='teal'
+          >
+            <Menu.Item
+              name='profile'
+              active={activeItem === 'profile'}
+              onClick={handleItemClick}
+            />
+          </Menu>
         </Grid.Column>
         <Grid.Column mobile={16} tablet={6} computer={8}>
           <h2>Puplic profile</h2>
