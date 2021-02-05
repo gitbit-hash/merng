@@ -28,17 +28,14 @@ module.exports = async upload => {
           }
         });
 
-        const roundedCorners = Buffer.from(
-          '<svg><rect x="0" y="0" width="200" height="200" rx="50" ry="50"/></svg>'
-        );
-
         const transformer =
           sharp()
             .resize({
               width: 400,
               height: 400,
             })
-            .jpeg();
+            .ensureAlpha()
+            .png();
 
         stream.pipe(transformer).pipe(streamLoad);
       });
