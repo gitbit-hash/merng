@@ -1,5 +1,7 @@
 const Profile = require('../../models/Profile');
 
+const { ApolloError } = require('apollo-server');
+
 const checkAuth = require('../../utils/check-auth');
 
 
@@ -25,6 +27,33 @@ module.exports = {
           }));
 
         return profiles;
+      } catch (err) {
+        throw new Error(err);
+      }
+    },
+    async getUserProfile(_, { username }, context) {
+
+      checkAuth(context);
+
+      try {
+        const profile = await Profile
+          .findOne({ username })
+          .populate({
+            path: 'user',
+            select: 'avatar'
+          });
+
+        if (!profile) {
+          throw new ApolloError('Profile not found.')
+        }
+
+        const userProfile = {
+          id: profile._id,
+          avatar: profile.user.avatar,
+          username: profile.username
+        }
+        return userProfile;
+
       } catch (err) {
         throw new Error(err);
       }

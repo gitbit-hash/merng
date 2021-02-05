@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useQuery } from '@apollo/client'
-import { FETCH_Profiles_QUERY } from '../../graphql/queries'
+import { FETCH_PROFILES_QUERY } from '../../graphql/queries'
 
 import ProfileCard from '../../components/ProfileCard/ProfileCard'
 
@@ -9,7 +9,7 @@ import { Loader, Card } from 'semantic-ui-react'
 
 const ProfileListPage = () => {
 
-  const { loading, error, data } = useQuery(FETCH_Profiles_QUERY)
+  const { loading, error, data } = useQuery(FETCH_PROFILES_QUERY)
 
   if (loading) return <Loader active />
 

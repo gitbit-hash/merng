@@ -47,7 +47,7 @@ query ($postId: ID!) {
 }
 `
 
-export const FETCH_Profiles_QUERY = gql`
+export const FETCH_PROFILES_QUERY = gql`
 {
   getProfiles {
     id

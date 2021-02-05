@@ -61,6 +61,7 @@ type Query{
   getPost(postId: ID!): Post
   uploads: [File]
   getProfiles:[Profile]
+  getUserProfile(username: String!): Profile
 }
 
 type Mutation{
