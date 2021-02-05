@@ -56,3 +56,12 @@ export const FETCH_PROFILES_QUERY = gql`
   }
 }
 `
+
+export const FETCH_PROFILE_QUERY = gql`
+query ($username: String!) {
+  getUserProfile(username: $username) {
+    id
+    username
+    avatar
+  }
+}`

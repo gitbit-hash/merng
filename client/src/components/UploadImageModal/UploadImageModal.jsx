@@ -6,14 +6,13 @@ import { UPLOAD_IMAGE } from '../../graphql/mutations'
 import Avatar from 'react-avatar-edit'
 import { Button, Dimmer, Loader, Message, Modal } from 'semantic-ui-react'
 
-const UploadImageModal = () => {
-  const [open, setOpen] = useState(false)
+const UploadImageModal = ({ setOpen, open }) => {
   const [error, setError] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
   const [croppedImage, setCroppedImage] = useState(null)
 
   const [uploadImage, { loading }] = useMutation(UPLOAD_IMAGE, {
-    onCompleted({ uploadImage: { url } }) {
+    onCompleted() {
       setSelectedFile(null)
       setOpen(false)
     },
@@ -77,7 +76,7 @@ const UploadImageModal = () => {
       onOpen={() => setOpen(true)}
       onClose={onModalClose}
       open={open}
-      trigger={<Button>Show Modal</Button>}
+      trigger={<Button style={{ display: 'none' }}>Show Modal</Button>}
       style={{
         maxWidth: '450px'
       }}
