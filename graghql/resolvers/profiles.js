@@ -50,7 +50,10 @@ module.exports = {
         const userProfile = {
           id: profile._id,
           avatar: profile.user.avatar,
-          username: profile.username
+          username: profile.username,
+          name: profile.name,
+          bio: profile.bio,
+          location: profile.location
         }
         return userProfile;
 
