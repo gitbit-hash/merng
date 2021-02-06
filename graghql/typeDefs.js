@@ -42,6 +42,9 @@ type Profile {
   id: ID!
   username: String!
   avatar: String!
+  name: String!
+  bio: String!
+  location: String!
 }
 
 input RegisterInput {
@@ -49,6 +52,12 @@ input RegisterInput {
   email: String!
   password: String!
   confirmPassword: String!
+}
+
+input EditProfileInput {
+  name: String!
+  bio: String!
+  location: String!
 }
 
 type File {
@@ -73,5 +82,6 @@ type Mutation{
   deleteComment(postId: ID!, commentId: ID!): Post!
   likePost(postId: ID!): Post!
   uploadImage(file: Upload!): File!
+  editProfile(editProfileInput: EditProfileInput): Profile!
 }
 `

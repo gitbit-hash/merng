@@ -58,5 +58,21 @@ module.exports = {
         throw new Error(err);
       }
     }
+  },
+  Mutation: {
+    async editProfile(_, { editProfileInput: { name, bio, location } }, context) {
+      const { username } = checkAuth(context);
+
+      try {
+        const profile = await Profile.findOneAndUpdate({ username }, { name, bio, location }, { new: true });
+
+        await profile.save();
+
+        return profile;
+
+      } catch (err) {
+        throw new Error(err);
+      }
+    }
   }
 }

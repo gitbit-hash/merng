@@ -6,6 +6,9 @@ const profileSchema = new Schema({
     ref: 'User'
   },
   username: String,
+  name: String,
+  bio: String,
+  location: String,
 });
 
 module.exports = model('Profile', profileSchema);
