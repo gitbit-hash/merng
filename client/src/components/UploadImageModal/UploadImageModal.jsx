@@ -14,14 +14,13 @@ const UploadImageModal = ({ setOpen, open }) => {
   const [uploadImage, { loading }] = useMutation(UPLOAD_IMAGE, {
     onCompleted() {
       setSelectedFile(null)
+      setCroppedImage(null)
       setOpen(false)
     },
     onError(err) {
       setError(err.message)
     }
   })
-
-  if (loading) return <Loader active inline='centered' />
 
   const onBeforeFileLoad = e => {
     const file = e.target.files[0]
@@ -84,7 +83,7 @@ const UploadImageModal = ({ setOpen, open }) => {
       <Modal.Header>Crop your new profile picture</Modal.Header>
       <Modal.Content>
         {
-          selectedFile && !croppedImage && (
+          ((selectedFile && !croppedImage) || loading) && (
             <Dimmer active>
               <Loader inverted active size='large'>
                 Loading...
