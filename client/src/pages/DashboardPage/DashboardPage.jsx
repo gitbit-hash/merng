@@ -26,29 +26,29 @@ const DashboardPage = () => {
   if (loading) return <Loader active />
 
   if (error) return `Error! ${error.message}`
+
+  const { getUserProfile: { avatar } } = data
+
   return (
     <Grid celled>
-      {
-        data &&
-        <Grid.Row>
-          <Grid.Column mobile={6} tablet={2} computer={2}>
-            <Image
-              src={data.getUserProfile.avatar}
-              circular
-              size='medium'
-            />
-          </Grid.Column>
-          <Grid.Column mobile={8} tablet={6} computer={8}>
-            <h3>{data.getUserProfile.username}</h3>
-            <p>Your personal account</p>
-          </Grid.Column>
-          <Grid.Column mobile={16} tablet={8} computer={6} verticalAlign='middle' textAlign='right'>
-            <Button fluid compact>
-              Go to your personal profile
+      <Grid.Row>
+        <Grid.Column mobile={6} tablet={2} computer={2}>
+          <Image
+            src={avatar}
+            circular
+            size='medium'
+          />
+        </Grid.Column>
+        <Grid.Column mobile={8} tablet={6} computer={8}>
+          <h3>{username}</h3>
+          <p>Your personal account</p>
+        </Grid.Column>
+        <Grid.Column mobile={16} tablet={8} computer={6} verticalAlign='middle' textAlign='right'>
+          <Button fluid compact>
+            Go to your personal profile
             </Button>
-          </Grid.Column>
-        </Grid.Row>
-      }
+        </Grid.Column>
+      </Grid.Row>
       <Grid.Row columns={3}>
         <Grid.Column mobile={16} tablet={6} computer={4}>
           <h4>Account settings</h4>
@@ -74,7 +74,7 @@ const DashboardPage = () => {
           <Segment basic>
             <Image
               fluid
-              src={data.getUserProfile.avatar}
+              src={avatar}
               as={Button}
               basic
               onClick={() => setOpen(true)}
