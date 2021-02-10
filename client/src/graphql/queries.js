@@ -63,5 +63,8 @@ query ($username: String!) {
     id
     username
     avatar
+    name
+    bio
+    location
   }
 }`

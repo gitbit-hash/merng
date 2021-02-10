@@ -42,3 +42,23 @@ module.exports.validateLoginInput = (username, password) => {
     valid: Object.keys(errors).length < 1
   }
 }
+
+module.exports.validateProfileInput = (name, bio, location) => {
+  const errors = {}
+  if (name.trim().length > 255) {
+    errors.name = 'Profile name is too long (maximum is 255 characters)'
+  }
+
+  if (bio.trim().length > 255) {
+    errors.bio = 'Profile bio is too long (maximum is 255 characters)'
+  }
+
+  if (location.trim().length > 255) {
+    errors.location = 'Profile Location is too long (maximum is 255 characters)'
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length < 1
+  }
+}

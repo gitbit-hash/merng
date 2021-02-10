@@ -5,6 +5,7 @@ import { AuthContext } from '../../context/auth'
 import { useQuery } from '@apollo/client'
 import { FETCH_PROFILE_QUERY } from '../../graphql/queries'
 
+import PuplicProfileForm from '../../components/PuplicProfileForm/PuplicProfileFrom'
 import UploadImageModal from '../../components/UploadImageModal/UploadImageModal'
 
 import { Loader, Image, Grid, Button, Segment, Divider, Menu } from 'semantic-ui-react';
@@ -27,7 +28,7 @@ const DashboardPage = () => {
 
   if (error) return `Error! ${error.message}`
 
-  const { getUserProfile: { avatar } } = data
+  const { getUserProfile: { avatar, name, bio, location } } = data
 
   return (
     <Grid celled>
@@ -67,7 +68,7 @@ const DashboardPage = () => {
           </Menu>
         </Grid.Column>
         <Grid.Column mobile={16} tablet={6} computer={8}>
-          <h2>Puplic profile</h2>
+          <PuplicProfileForm name={name} bio={bio} location={location} />
           <Divider />
         </Grid.Column>
         <Grid.Column mobile={14} tablet={4} computer={4}>

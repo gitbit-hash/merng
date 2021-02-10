@@ -4,6 +4,8 @@ const { ApolloError } = require('apollo-server');
 
 const checkAuth = require('../../utils/check-auth');
 
+const { validateProfileInput } = require('../../utils/validators')
+const { UserInputError } = require('apollo-server');
 
 module.exports = {
   Query: {
@@ -51,9 +53,9 @@ module.exports = {
           id: profile._id,
           avatar: profile.user.avatar,
           username: profile.username,
-          name: profile.name,
-          bio: profile.bio,
-          location: profile.location
+          name: profile.name || '',
+          bio: profile.bio || '',
+          location: profile.location || ''
         }
         return userProfile;
 
@@ -65,6 +67,12 @@ module.exports = {
   Mutation: {
     async editProfile(_, { editProfileInput: { name, bio, location } }, context) {
       const { username } = checkAuth(context);
+
+      // check profile inputs length
+      const { errors, valid } = validateProfileInput(name, bio, location);
+      if (!valid) {
+        throw new UserInputError('Errors', { errors });
+      }
 
       try {
         const profile = await Profile.findOneAndUpdate({ username }, { name, bio, location }, { new: true });

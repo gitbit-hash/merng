@@ -103,3 +103,23 @@ export const LIKE_POST_MUTATION = gql`
     }
   }
 `
+
+export const EDIT_PROFILE_MUTATION = gql`
+  mutation EditProfile(
+    $name: String!
+    $bio: String!
+    $location: String!  
+  ) {
+    editProfile(
+      editProfileInput: {
+        name: $name
+        bio: $bio
+        location: $location
+      }
+    ) {
+      name
+      bio
+      location
+    }
+  }
+`
