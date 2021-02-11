@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 
 import { useMutation } from '@apollo/client'
 import { UPLOAD_IMAGE } from '../../graphql/mutations'
+import { FETCH_PROFILE_QUERY } from '../../graphql/queries'
 
 import Avatar from 'react-avatar-edit'
 import { Button, Dimmer, Loader, Message, Modal } from 'semantic-ui-react'
 
-const UploadImageModal = ({ setOpen, open }) => {
+const UploadImageModal = ({ setOpen, open, username }) => {
   const [error, setError] = useState('')
   const [selectedFile, setSelectedFile] = useState(null)
   const [croppedImage, setCroppedImage] = useState(null)
@@ -16,6 +17,21 @@ const UploadImageModal = ({ setOpen, open }) => {
       setSelectedFile(null)
       setCroppedImage(null)
       setOpen(false)
+    },
+    update(proxy, { data: { uploadImage: { url } } }) {
+      const { getUserProfile } = proxy.readQuery({
+        query: FETCH_PROFILE_QUERY,
+        variables: { username }
+      })
+
+      let newData = { ...getUserProfile, avatar: url }
+
+      proxy.writeQuery({
+        query: FETCH_PROFILE_QUERY,
+        data: {
+          getUserProfile: newData
+        },
+      })
     },
     onError(err) {
       setError(err.message)

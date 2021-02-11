@@ -82,7 +82,7 @@ const DashboardPage = () => {
               label={{ attached: 'bottom', icon: 'pencil', content: 'Edit' }}
             />
           </Segment>
-          <UploadImageModal setOpen={setOpen} open={open} />
+          <UploadImageModal setOpen={setOpen} open={open} username={username} />
         </Grid.Column>
       </Grid.Row>
     </Grid>
