@@ -68,3 +68,10 @@ query ($username: String!) {
     location
   }
 }`
+
+export const FETCH_AVATAR_QUERY = gql`
+query ($username: String!) {
+  getUserProfile(username: $username) {
+    avatar
+  }
+}`

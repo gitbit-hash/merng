@@ -5,6 +5,8 @@ import { AuthContext } from '../../context/auth'
 
 import { Link } from 'react-router-dom'
 
+import AvatarDropdownMenu from '../AvatarDropdownMenu/AvatarDropdownMenu'
+
 import { Menu } from 'semantic-ui-react'
 
 const MenuBar = ({ location }) => {
@@ -33,6 +35,9 @@ const MenuBar = ({ location }) => {
             name='logout'
             onClick={logout}
           />
+          <Menu.Item style={{ padding: '6px' }}>
+            <AvatarDropdownMenu username={user.username} />
+          </Menu.Item>
         </Menu.Menu>
       </Menu>
     )
